@@ -1,11 +1,11 @@
-package ru.homework.spring01.service;
+package ru.homework.service;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import ru.homework.spring01.common.Answer;
-import ru.homework.spring01.common.TestUnit;
-import ru.homework.spring01.dao.ITestBoxDao;
+import ru.homework.common.Answer;
+import ru.homework.common.TestUnit;
+import ru.homework.dao.ITestBoxDao;
 
 public class TestService {
 	

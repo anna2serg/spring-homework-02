@@ -1,4 +1,4 @@
-package ru.homework.spring01;
+package ru.homework;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

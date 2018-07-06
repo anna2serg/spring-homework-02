@@ -1,4 +1,4 @@
-package ru.homework.spring01.reader;
+package ru.homework.reader;
 
 import java.io.BufferedReader;
 

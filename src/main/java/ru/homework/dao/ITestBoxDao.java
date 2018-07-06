@@ -1,6 +1,6 @@
-package ru.homework.spring01.dao;
+package ru.homework.dao;
 
-import ru.homework.spring01.common.TestUnit;
+import ru.homework.common.TestUnit;
 
 public interface ITestBoxDao {
 

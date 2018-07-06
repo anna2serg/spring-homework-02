@@ -1,11 +1,11 @@
-package ru.homework.spring01;
+package ru.homework;
 
 import java.net.URL;
 import java.net.URLClassLoader;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import ru.homework.spring01.service.TestService;
+import ru.homework.service.TestService;
 
 
 public class App 

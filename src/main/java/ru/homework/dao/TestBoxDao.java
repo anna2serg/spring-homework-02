@@ -1,4 +1,4 @@
-package ru.homework.spring01.dao;
+package ru.homework.dao;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -7,9 +7,9 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
-import ru.homework.spring01.common.Answer;
-import ru.homework.spring01.common.TestUnit;
-import ru.homework.spring01.reader.CSVReader;
+import ru.homework.common.Answer;
+import ru.homework.common.TestUnit;
+import ru.homework.reader.CSVReader;
 
 public class TestBoxDao implements ITestBoxDao {
 	

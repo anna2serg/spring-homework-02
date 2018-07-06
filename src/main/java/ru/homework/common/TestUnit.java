@@ -1,4 +1,4 @@
-package ru.homework.spring01.common;
+package ru.homework.common;
 
 public class TestUnit {
 	
