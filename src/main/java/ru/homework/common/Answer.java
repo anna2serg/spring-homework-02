@@ -1,6 +1,6 @@
 package ru.homework.common;
 
-public class Answer {
+public final class Answer {
 	private int id;
     private String variant;
     private boolean right;

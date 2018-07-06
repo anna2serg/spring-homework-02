@@ -1,23 +1,36 @@
 package ru.homework.service;
 
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Scanner;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.stereotype.Service;
 
 import ru.homework.common.Answer;
 import ru.homework.common.TestUnit;
-import ru.homework.dao.ITestBoxDao;
+import ru.homework.dao.TestBoxDao;
 
+@Service
 public class TestService {
 	
-	private ITestBoxDao dao;
-	private Scanner in = new Scanner(System.in);
+	final private TestBoxDao dao;
 	
-    public TestService(ITestBoxDao dao) {
+	@Autowired
+	private MessageSource messageSource;
+
+    public TestService(TestBoxDao dao) {
     	this.dao = dao;	
     }	
      
-    public void startTest() {
-     if (dao.EOF()) return;	
+    @SuppressWarnings("resource")
+	public void startTest() {
+     if (dao.isEOF()) return;	
+     
+     Scanner in = new Scanner(System.in);
+          
+     System.out.println(messageSource.getMessage("hello.user", new String[] {"Anna"}, new Locale("ru") ));
   	
    	 System.out.println( "в Нью-Йорке свет погас давно и молоко прокисло,\r\n" + 
       		"а мне плевать, ведь все равно\r\n" + 
@@ -34,8 +47,8 @@ public class TestService {
    	 String multiHint = "(На вопрос имеется несколько правильных ответов, введите их через запятую)";
      ArrayList<Integer> userAnswers = null; 
      ArrayList<Integer> rightAnswers = null;
-     while (!dao.EOF()) {     	 
-    	 TestUnit tu = dao.Get();
+     while (!dao.isEOF()) {     	 
+    	 TestUnit tu = dao.getTest();
 		 question = tu.getQuestion();
 		 multi = tu.isMultiChoice();
 		 answers = "";
@@ -69,7 +82,7 @@ public class TestService {
 		 && rightAnswers.containsAll(userAnswers)) {
 			 userScore += 10;
 		 }
-		 dao.Next();
+		 dao.nextTest();
      }
      
      if (maxScore > 0) {

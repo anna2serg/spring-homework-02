@@ -2,7 +2,7 @@ package ru.homework.common;
 
 import java.util.ArrayList;
 
-public class AnswerList {
+public final class AnswerList {
 	private ArrayList<Answer> answers;
 	
 	public AnswerList() {
