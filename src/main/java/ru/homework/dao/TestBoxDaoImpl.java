@@ -33,8 +33,8 @@ public class TestBoxDaoImpl implements TestBoxDao {
 		InputStreamReader streamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
 		BufferedReader reader = new BufferedReader(streamReader);
 
-		ArrayList<ArrayList<String>> testTable = csvReader.parse(reader);
-		for (ArrayList<String> rows : testTable) {
+		List<List<String>> testTable = csvReader.parse(reader);
+		for (List<String> rows : testTable) {
 			TestUnit testUnit = new TestUnit();
 			String var = "";
 			List<Integer> rightAnswers = new ArrayList<Integer>();

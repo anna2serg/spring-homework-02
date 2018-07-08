@@ -4,14 +4,15 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import org.springframework.stereotype.Component;
 
 @Component
 public class CSVReader {
 	
-    public ArrayList<ArrayList<String>> parse(BufferedReader file) {
-    	ArrayList<ArrayList<String>> result = new ArrayList<ArrayList<String>>();
+    public List<List<String>> parse(BufferedReader file) {
+    	List<List<String>> result = new ArrayList<List<String>>();
     	
     	String row = "";
         String splitBy = ";";
