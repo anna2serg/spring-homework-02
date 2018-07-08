@@ -5,6 +5,7 @@ import java.util.Locale;
 import java.util.Scanner;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
@@ -15,54 +16,73 @@ import ru.homework.dao.TestBoxDao;
 @Service
 public class TestService {
 	
+	private Locale locale = Locale.ENGLISH;
+	
 	final private TestBoxDao dao;
 	
 	@Autowired
 	private MessageSource messageSource;
 
-    public TestService(TestBoxDao dao) {
+	@Autowired
+    public TestService(@Value("${locale}") String localeName, TestBoxDao dao) {
+		this.locale = new Locale(localeName);
     	this.dao = dao;	
     }	
      
+	private boolean tryParseInt(String value) {  
+	     try {  
+	         Integer.parseInt(value);  
+	         return true;  
+	      } catch (NumberFormatException e) {  
+	         return false;  
+	      }  
+	}	
+	
+	private String getLocalizedValue(String value) {
+		return messageSource.getMessage(value, null, locale);
+	}
+	
+	private String getLocalizedValue(String value, Object[] args) {
+		return messageSource.getMessage(value, args, locale);
+	}	
+	
     @SuppressWarnings("resource")
 	public void startTest() {
      if (dao.isEOF()) return;	
      
      Scanner in = new Scanner(System.in);
-          
-     System.out.println(messageSource.getMessage("hello.user", new String[] {"Anna"}, new Locale("ru") ));
-  	
-   	 System.out.println( "в Нью-Йорке свет погас давно и молоко прокисло,\r\n" + 
-      		"а мне плевать, ведь все равно\r\n" + 
-      		"жизнь не имеет смысла.\r\n" + 
-      		"Фиби Буфе (c)\r\n" );    	
-   	 System.out.println("Тест \"Хорошо ли ты знаешь сериал \"Друзья\"?\"");
+     System.out.println(getLocalizedValue("test.name"));
+     System.out.println();     
+     System.out.println(getLocalizedValue("test.description"));
+     System.out.println();
+	 System.out.println(getLocalizedValue("input.name"));
+	 String username = in.nextLine();      
+	 System.out.println(getLocalizedValue("hello.user", new String[] {username}));
+	 System.out.println();
    	 System.out.println("");
    	 int maxScore = 0;
    	 int userScore = 0;
    	 String question = "";
    	 String answers = "";
    	 boolean multi = false;
-   	 String hint = "(Введите цифру, соответствующую выбранному Вами ответу)";
-   	 String multiHint = "(На вопрос имеется несколько правильных ответов, введите их через запятую)";
+   	 String hint = getLocalizedValue("hint.answer.single");
+   	 String multiHint = getLocalizedValue("hint.answer.multi");
      ArrayList<Integer> userAnswers = null; 
-     ArrayList<Integer> rightAnswers = null;
      while (!dao.isEOF()) {     	 
     	 TestUnit tu = dao.getTest();
-		 question = tu.getQuestion();
+		 question = getLocalizedValue(tu.getQuestion());
 		 multi = tu.isMultiChoice();
 		 answers = "";
-		 rightAnswers = new ArrayList<Integer>();
-		 for (int i = 0; i < tu.getAnswerCount(); i +=1) {
-			 Answer a = tu.getAnswer(i);
-			 answers += a.getId() + " - " + a + "\r\n";
-			 if (a.getRight()) rightAnswers.add(a.getId());
+		 for (int i = 0; i < tu.getAnswerCount(); i+=1) {
+			 Answer ans = tu.getAnswer(i); 
+			 String ansStr = tryParseInt(ans.toString()) ? ans.toString() : getLocalizedValue(ans.toString());
+			 answers += ans.getId() + " - " + ansStr + "\r\n";
 		 }	 
 		 System.out.println(question);
 		 if (multi) System.out.println(multiHint);
 		 else System.out.println(hint);
 		 System.out.println(answers);
-		 System.out.print("Ваш ответ: ");
+		 System.out.print(getLocalizedValue("user.answer"));
 		 String[] userInput = in.nextLine().split(","); 
 		 userAnswers = new ArrayList<Integer>();
 		 for (String ui : userInput) {
@@ -78,19 +98,23 @@ public class TestService {
 			 if (!multi) break;
 		 }
 		 maxScore += 10;
-		 if (userAnswers.containsAll(rightAnswers) 
-		 && rightAnswers.containsAll(userAnswers)) {
+		 
+		 if (tu.isRightAnswers(userAnswers)) {
 			 userScore += 10;
 		 }
 		 dao.nextTest();
      }
      
      if (maxScore > 0) {
-    	 String scoreResult = "Поздравляю! Вы набрали %d очков из %d возможных ";
-    	 System.out.println(String.format(scoreResult, userScore, maxScore));
-    	 String rankResult = userScore>50 ? "Браво! Вы фанат сериала \"Друзья\"!" :
-    		                 userScore>20 ? "Вы только что получили почетное звание \"Друг Друзей\"!" :
-    		                 "Вы не смотрели сериал \"Друзья\"? Вы многое потеряли :)"; 	 	
+    	 System.out.println();
+    	 String scoreResult = getLocalizedValue("score.result",  new Integer[]{userScore, maxScore});
+    	 System.out.println(scoreResult);
+    	 
+    	 int userScorePercent = 100 * userScore / maxScore;
+    	 String rankResult = userScorePercent>80 ? getLocalizedValue("score.result.excellent") :
+    		 				 userScorePercent>55 ? getLocalizedValue("score.result.good") :
+    		 				 userScorePercent>20 ? getLocalizedValue("score.result.notbad") :	 
+    		                 					   getLocalizedValue("score.result.soso"); 	 	
     	 System.out.println(rankResult);
      }
    }    

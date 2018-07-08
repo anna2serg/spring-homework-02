@@ -23,19 +23,19 @@ public class TestBoxDaoImpl implements TestBoxDao {
 	private void testListLoad(String file) {
 		
 		ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-		InputStream inputStream  = classloader.getResourceAsStream(file);	
+		InputStream inputStream  = classloader.getResourceAsStream(file);
+		if (inputStream==null) {
+			System.out.println("Упс! Файл с тестом не найден. Надо бы проверить имя и путь к файлу в настройках программы");
+			return;			
+		}	
 		InputStreamReader streamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
 		BufferedReader reader = new BufferedReader(streamReader);
-		
-		/*File f = new File(file);
-		if (!f.exists()) {
-			System.out.println("Упс! Файл с тестом не найден. Надо бы проверить путь к файлу в настройках программы");
-			return;
-		}*/
+
 		ArrayList<ArrayList<String>> raw = CSVReader.ParseString(reader);
 		for (ArrayList<String> rows : raw) {
 			TestUnit testUnit = new TestUnit();
 			String var = "";
+			ArrayList<Integer> rightAnswers = new ArrayList<Integer>();
 			Boolean varRight = false; 
 			int iCol = 0;
 			int idAnswer = 1;
@@ -45,7 +45,8 @@ public class TestBoxDaoImpl implements TestBoxDao {
 				else {
 					if (iCol%2==0) {
 						varRight = s.equals("1");
-						testUnit.addAnswer(new Answer(idAnswer, var, varRight));
+						if (varRight) rightAnswers.add(idAnswer);
+						testUnit.addAnswer(new Answer(idAnswer, var));
 						idAnswer += 1;
 					}
 					else {
@@ -53,13 +54,14 @@ public class TestBoxDaoImpl implements TestBoxDao {
 					}
 				}
 				iCol++;
-			}		
+			}	
+			testUnit.setRightAnswers(rightAnswers);
 			testList.add(testUnit);
 		}
 	}
 	
 	@Autowired
-    public TestBoxDaoImpl(@Value("${testBoxFile}") String file) {
+    public TestBoxDaoImpl(@Value("${testFile}") String file) {
         //парсим
     	index = 0;
     	testList = new ArrayList<TestUnit>();

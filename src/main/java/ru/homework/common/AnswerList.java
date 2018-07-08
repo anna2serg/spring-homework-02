@@ -15,20 +15,7 @@ public final class AnswerList {
 	
     public int getCount() {
         return answers.size();
-    }		
-	
-	public boolean isMultiChoice() {
-    	boolean result = false; 
-    	int rightCount = 0;
-    	for (Answer a : answers) {
-    		if (a.getRight()) rightCount += 1;
-    		if (rightCount>1) {
-    			result = true;
-    			return result;
-    		}
-    	}	
-    	return result;
-	}
+    }	
 	
 	public void add(Answer answer) {
 		answers.add(answer);

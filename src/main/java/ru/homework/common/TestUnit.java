@@ -1,12 +1,17 @@
 package ru.homework.common;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class TestUnit {
 	
     private String question;
     private AnswerList answerList;
+    private ArrayList<Integer> rightAnswers;
 
     public TestUnit() {
     	answerList = new AnswerList();
+    	rightAnswers = new ArrayList<Integer>();
     }
     
     public String getQuestion() {
@@ -27,10 +32,20 @@ public class TestUnit {
     
     public void addAnswer(Answer answer) {
         answerList.add(answer);
+    }	 
+    
+    public void setRightAnswers(List<Integer> rightAnswers) {
+    	this.rightAnswers.clear();
+    	this.rightAnswers.addAll(rightAnswers);
     }	    
     
-    public boolean isMultiChoice() {
-        return answerList.isMultiChoice();
-    }	       
+	public boolean isMultiChoice() {
+		return rightAnswers.size()>1;
+	}	   
+	
+	public boolean isRightAnswers(ArrayList<Integer> userAnswers) {
+		return (userAnswers.containsAll(rightAnswers) 
+				&& rightAnswers.containsAll(userAnswers));		
+	}
        
 }

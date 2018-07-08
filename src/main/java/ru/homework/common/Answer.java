@@ -3,12 +3,10 @@ package ru.homework.common;
 public final class Answer {
 	private int id;
     private String variant;
-    private boolean right;
 
-    public Answer(int id, String variant, boolean right) {
+    public Answer(int id, String variant) {
     	this.id = id;
         this.variant = variant;
-        this.right = right;
     }
 
     public int getId() {
@@ -17,10 +15,6 @@ public final class Answer {
     
     public String getVariant() {
         return variant;
-    }
-
-    public boolean getRight() {
-        return right;
     }
     
     public String toString() { 
