@@ -17,6 +17,7 @@ import ru.homework.reader.CSVReader;
 @Repository
 public class TestBoxDaoImpl implements TestBoxDao {
 	
+	final private CSVReader csvReader;
 	private ArrayList<TestUnit> testList;
 	private int index = 0; 
 	
@@ -31,7 +32,7 @@ public class TestBoxDaoImpl implements TestBoxDao {
 		InputStreamReader streamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
 		BufferedReader reader = new BufferedReader(streamReader);
 
-		ArrayList<ArrayList<String>> raw = CSVReader.ParseString(reader);
+		ArrayList<ArrayList<String>> raw = csvReader.ParseString(reader);
 		for (ArrayList<String> rows : raw) {
 			TestUnit testUnit = new TestUnit();
 			String var = "";
@@ -61,10 +62,11 @@ public class TestBoxDaoImpl implements TestBoxDao {
 	}
 	
 	@Autowired
-    public TestBoxDaoImpl(@Value("${testFile}") String file) {
+    public TestBoxDaoImpl(@Value("${testFile}") String file, CSVReader csvReader) {
         //парсим
     	index = 0;
     	testList = new ArrayList<TestUnit>();
+    	this.csvReader = csvReader;
     	testListLoad(file);
     }
 

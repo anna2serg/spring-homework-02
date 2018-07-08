@@ -7,9 +7,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
+
+@Component
 public class CSVReader {
 	
-    public static ArrayList<ArrayList<String>> ParseString(BufferedReader file) {
+    public ArrayList<ArrayList<String>> ParseString(BufferedReader file) {
     	ArrayList<ArrayList<String>> result = new ArrayList<ArrayList<String>>();
     	
     	String row = "";
