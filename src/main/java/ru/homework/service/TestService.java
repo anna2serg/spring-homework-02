@@ -1,6 +1,7 @@
 package ru.homework.service;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
 
@@ -67,14 +68,15 @@ public class TestService {
    	 boolean multi = false;
    	 String hint = getLocalizedValue("hint.answer.single");
    	 String multiHint = getLocalizedValue("hint.answer.multi");
-     ArrayList<Integer> userAnswers = null; 
+     List<Integer> userAnswers = null; 
      while (!dao.isEOF()) {     	 
     	 TestUnit tu = dao.getTest();
 		 question = getLocalizedValue(tu.getQuestion());
 		 multi = tu.isMultiChoice();
 		 answers = "";
-		 for (int i = 0; i < tu.getAnswerCount(); i+=1) {
-			 Answer ans = tu.getAnswer(i); 
+		 
+		 List<Answer> answerList = tu.getAnswers();
+		 for (Answer ans : answerList) {
 			 String ansStr = tryParseInt(ans.toString()) ? ans.toString() : getLocalizedValue(ans.toString());
 			 answers += ans.getId() + " - " + ansStr + "\r\n";
 		 }	 

@@ -1,16 +1,17 @@
 package ru.homework.common;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class TestUnit {
 	
     private String question;
-    private AnswerList answerList;
-    private ArrayList<Integer> rightAnswers;
+    private List<Answer> answerList;
+    private List<Integer> rightAnswers;
 
     public TestUnit() {
-    	answerList = new AnswerList();
+    	answerList = new ArrayList<Answer>();
     	rightAnswers = new ArrayList<Integer>();
     }
     
@@ -20,15 +21,11 @@ public class TestUnit {
     
     public void setQuestion(String question) {
         this.question = question;
-    }    
+    }      
     
-    public int getAnswerCount() {
-        return answerList.getCount();
-    }	
-    
-    public Answer getAnswer(int Index) {
-        return answerList.get(Index);
-    }	    
+    public List<Answer> getAnswers() {
+        return Collections.unmodifiableList(answerList);
+    }	       
     
     public void addAnswer(Answer answer) {
         answerList.add(answer);
@@ -43,7 +40,7 @@ public class TestUnit {
 		return rightAnswers.size()>1;
 	}	   
 	
-	public boolean isRightAnswers(ArrayList<Integer> userAnswers) {
+	public boolean isRightAnswers(List<Integer> userAnswers) {
 		return (userAnswers.containsAll(rightAnswers) 
 				&& rightAnswers.containsAll(userAnswers));		
 	}

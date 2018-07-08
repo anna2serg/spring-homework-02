@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,7 +19,7 @@ import ru.homework.reader.CSVReader;
 public class TestBoxDaoImpl implements TestBoxDao {
 	
 	final private CSVReader csvReader;
-	private ArrayList<TestUnit> testList;
+	private List<TestUnit> testList;
 	private int index = 0; 
 	
 	private void testListLoad(String file) {
@@ -32,11 +33,11 @@ public class TestBoxDaoImpl implements TestBoxDao {
 		InputStreamReader streamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
 		BufferedReader reader = new BufferedReader(streamReader);
 
-		ArrayList<ArrayList<String>> raw = csvReader.ParseString(reader);
-		for (ArrayList<String> rows : raw) {
+		ArrayList<ArrayList<String>> testTable = csvReader.parse(reader);
+		for (ArrayList<String> rows : testTable) {
 			TestUnit testUnit = new TestUnit();
 			String var = "";
-			ArrayList<Integer> rightAnswers = new ArrayList<Integer>();
+			List<Integer> rightAnswers = new ArrayList<Integer>();
 			Boolean varRight = false; 
 			int iCol = 0;
 			int idAnswer = 1;
