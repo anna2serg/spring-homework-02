@@ -64,7 +64,7 @@ public class TestService {
    	 String question = "";
    	 String answers = "";
    	 boolean multi = false;
-   	 String hint = getLocalizedValue("hint.answer.single");
+   	 String singleHint = getLocalizedValue("hint.answer.single");
    	 String multiHint = getLocalizedValue("hint.answer.multi");
      List<Integer> userAnswers = null; 
      while (!dao.isEOF()) {     	 
@@ -80,7 +80,7 @@ public class TestService {
 		 }	 
 		 System.out.println(question);
 		 if (multi) System.out.println(multiHint);
-		 else System.out.println(hint);
+		 else System.out.println(singleHint);
 		 System.out.println(answers);
 		 System.out.print(getLocalizedValue("user.answer"));
 		 String[] userInput = in.nextLine().split(","); 
