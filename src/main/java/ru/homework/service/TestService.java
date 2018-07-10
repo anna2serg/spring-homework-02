@@ -18,16 +18,14 @@ import ru.homework.dao.TestBoxDao;
 public class TestService {
 	
 	private Locale locale = Locale.ENGLISH;
-	
-	final private TestBoxDao dao;
+	private final TestBoxDao dao;
+	private final MessageSource messageSource;
 	
 	@Autowired
-	private MessageSource messageSource;
-
-	@Autowired
-    public TestService(@Value("${locale}") String localeName, TestBoxDao dao) {
+    public TestService(@Value("${locale}") String localeName, TestBoxDao dao, MessageSource messageSource) {
 		this.locale = new Locale(localeName);
     	this.dao = dao;	
+    	this.messageSource = messageSource;
     }	
      
 	private boolean tryParseInt(String value) {  

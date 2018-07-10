@@ -18,7 +18,7 @@ import ru.homework.reader.CSVReader;
 @Repository
 public class TestBoxDaoImpl implements TestBoxDao {
 	
-	final private CSVReader csvReader;
+	private final CSVReader csvReader;
 	private List<TestUnit> testList;
 	private int index = 0; 
 	
